@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Print Preview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        /* TEMPLATE 1: Professional Invoice */
+        .template-professional .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #333;
+            padding-bottom: 20px;
+        }
+
+        .template-professional .company-info h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .template-professional .invoice-meta h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        /* TEMPLATE 2: Modern Blue */
+        .template-modern .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            margin: -40px -40px 30px -40px;
+            border-radius: 0;
+        }
+
+        .template-modern .company-info h1,
+        .template-modern .invoice-meta h2,
+        .template-modern .invoice-meta p,
+        .template-modern .company-info p {
+            color: white;
+        }
+
+        .template-modern .items-table thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        /* TEMPLATE 3: Minimalist Receipt */
+        .template-receipt {
+            font-family: 'Courier New', monospace;
+        }
+
+        .template-receipt .container {
+            max-width: 400px;
+            padding: 20px;
+        }
+
+        .template-receipt .header {
+            text-align: center;
+            border-bottom: 2px dashed #333;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .template-receipt .company-info h1 {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .template-receipt .company-info p {
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .template-receipt .invoice-meta {
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .template-receipt .bill-to {
+            border-top: 1px dashed #333;
+            border-bottom: 1px dashed #333;
+            padding: 10px 0;
+            margin-bottom: 15px;
+        }
+
+        .template-receipt .items-table {
+            font-size: 12px;
+        }
+
+        .template-receipt .items-table th,
+        .template-receipt .items-table td {
+            padding: 5px 2px;
+        }
+
+        .template-receipt .totals {
+            width: 100%;
+            border-top: 2px dashed #333;
+            padding-top: 10px;
+        }
+
+        /* TEMPLATE 4: Corporate Green */
+        .template-corporate .header {
+            border-left: 5px solid #10b981;
+            padding-left: 20px;
+            margin-bottom: 30px;
+        }
+
+        .template-corporate .company-info h1 {
+            color: #10b981;
+            font-size: 32px;
+        }
+
+        .template-corporate .items-table thead {
+            background-color: #10b981;
+        }
+
+        .template-corporate .totals-row.total {
+            background-color: #f0fdf4;
+            padding: 12px;
+            border: 2px solid #10b981;
+            color: #10b981;
+        }
+
+        /* TEMPLATE 5: Elegant Invoice */
+        .template-elegant .header {
+            text-align: center;
+            border: 2px solid #6b7280;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .template-elegant .company-info h1 {
+            font-family: Georgia, serif;
+            font-size: 36px;
+            color: #1f2937;
+            letter-spacing: 2px;
+        }
+
+        .template-elegant .invoice-meta {
+            margin-top: 15px;
+        }
+
+        .template-elegant .items-table {
+            border: 2px solid #6b7280;
+        }
+
+        .template-elegant .items-table thead {
+            background-color: #1f2937;
+        }
+
+        /* Common Styles */
+        .company-info p, .invoice-meta p, .bill-to p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .bill-to {
+            margin-bottom: 30px;
+        }
+
+        .bill-to h3 {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .items-table thead {
+            color: white;
+        }
+
+        .items-table th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .items-table td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .items-table tbody tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .text-right { text-align: right; }
+        .text-center { text-align: center; }
+
+        .totals {
+            margin-left: auto;
+            width: 300px;
+            margin-top: 20px;
+        }
+
+        .totals-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+        }
+
+        .totals-row.subtotal {
+            border-top: 1px solid #ddd;
+        }
+
+        .totals-row.total {
+            border-top: 2px solid #333;
+            font-size: 18px;
+            font-weight: bold;
+            padding-top: 12px;
+            margin-top: 8px;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .print-button {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .print-button button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin: 0 5px;
+        }
+
+        .print-button button:hover {
+            background-color: #555;
+        }
+
+        .template-selector {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f9fafb;
+            border-radius: 8px;
+        }
+
+        .template-selector select {
+            padding: 8px 16px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .container {
+                box-shadow: none;
+                padding: 20px;
+            }
+
+            .print-button, .template-selector {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="template-selector">
+        <label for="templateSelect"><strong>Select Template:</strong></label>
+        <select id="templateSelect" onchange="changeTemplate(this.value)">
+            <option value="professional">Professional Invoice</option>
+            <option value="modern">Modern Blue</option>
+            <option value="receipt">Minimalist Receipt</option>
+            <option value="corporate">Corporate Green</option>
+            <option value="elegant">Elegant Invoice</option>
+        </select>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <div class="company-info">
+                <h1 id="companyName">Your Company Name</h1>
+                <p id="companyAddress">
+                    123 Business Street<br>
+                    City, State 12345<br>
+                    Phone: (555) 123-4567<br>
+                    Email: info@company.com
+                </p>
+            </div>
+            <div class="invoice-meta">
+                <h2 id="documentType">INVOICE</h2>
+                <p><strong>Invoice #:</strong> <span id="invoiceNumber">INV-001</span></p>
+                <p><strong>Date:</strong> <span id="invoiceDate">2024-01-01</span></p>
+                <p><strong>Due Date:</strong> <span id="dueDate">2024-01-31</span></p>
+            </div>
+        </div>
+
+        <div class="bill-to">
+            <h3>Bill To:</h3>
+            <p id="customerInfo">
+                <strong id="customerName">Customer Name</strong><br>
+                <span id="customerAddress">Customer Address</span><br>
+                <span id="customerEmail">customer@email.com</span>
+            </p>
+        </div>
+
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th class="text-center">Quantity</th>
+                    <th class="text-right">Unit Price</th>
+                    <th class="text-right">Amount</th>
+                </tr>
+            </thead>
+            <tbody id="itemsBody">
+                <tr>
+                    <td>Sample Item</td>
+                    <td class="text-center">1</td>
+                    <td class="text-right">$100.00</td>
+                    <td class="text-right">$100.00</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="totals">
+            <div class="totals-row subtotal">
+                <span>Subtotal:</span>
+                <span id="subtotal">$0.00</span>
+            </div>
+            <div class="totals-row">
+                <span>Tax (<span id="taxRate">0</span>%):</span>
+                <span id="tax">$0.00</span>
+            </div>
+            <div class="totals-row total">
+                <span>Total:</span>
+                <span id="total">$0.00</span>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p id="notes">Thank you for your business!</p>
+        </div>
+    </div>
+
+    <div class="print-button">
+        <button onclick="window.print()">🖨️ Print</button>
+        <button onclick="window.location.href=window.location.pathname">🔄 Reset</button>
+    </div>
+
+    <script>
+        function getUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            const data = {};
+            for (const [key, value] of params.entries()) {
+                data[key] = decodeURIComponent(value);
+            }
+            return data;
+        }
+
+        function formatCurrency(value) {
+            return '$' + parseFloat(value || 0).toFixed(2);
+        }
+
+        function changeTemplate(template) {
+            document.body.className = 'template-' + template;
+            
+            // Update URL without reload
+            const params = getUrlParams();
+            params.template = template;
+            const newUrl = window.location.pathname + '?' + new URLSearchParams(params).toString();
+            window.history.replaceState({}, '', newUrl);
+        }
+
+        function populateInvoice() {
+            const params = getUrlParams();
+
+            // Set template
+            const template = params.template || 'professional';
+            document.getElementById('templateSelect').value = template;
+            document.body.className = 'template-' + template;
+
+            // Document type
+            if (params.documentType) {
+                document.getElementById('documentType').textContent = params.documentType.toUpperCase();
+            }
+
+            // Company info
+            if (params.companyName) document.getElementById('companyName').textContent = params.companyName;
+            if (params.companyAddress) document.getElementById('companyAddress').innerHTML = params.companyAddress.replace(/\\n/g, '<br>');
+
+            // Invoice meta
+            if (params.invoiceNumber) document.getElementById('invoiceNumber').textContent = params.invoiceNumber;
+            if (params.invoiceDate) document.getElementById('invoiceDate').textContent = params.invoiceDate;
+            if (params.dueDate) document.getElementById('dueDate').textContent = params.dueDate;
+
+            // Customer info
+            if (params.customerName) document.getElementById('customerName').textContent = params.customerName;
+            if (params.customerAddress) document.getElementById('customerAddress').textContent = params.customerAddress;
+            if (params.customerEmail) document.getElementById('customerEmail').textContent = params.customerEmail;
+
+            // Line items
+            if (params.items) {
+                try {
+                    const items = JSON.parse(params.items);
+                    const tbody = document.getElementById('itemsBody');
+                    tbody.innerHTML = '';
+
+                    let subtotal = 0;
+
+                    items.forEach(item => {
+                        const amount = (item.quantity || 0) * (item.price || 0);
+                        subtotal += amount;
+
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${item.description || ''}</td>
+                            <td class="text-center">${item.quantity || 0}</td>
+                            <td class="text-right">${formatCurrency(item.price)}</td>
+                            <td class="text-right">${formatCurrency(amount)}</td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+
+                    // Calculate totals
+                    const taxRate = parseFloat(params.taxRate || 0);
+                    const tax = subtotal * (taxRate / 100);
+                    const total = subtotal + tax;
+
+                    document.getElementById('subtotal').textContent = formatCurrency(subtotal);
+                    document.getElementById('taxRate').textContent = taxRate.toFixed(2);
+                    document.getElementById('tax').textContent = formatCurrency(tax);
+                    document.getElementById('total').textContent = formatCurrency(total);
+
+                } catch (e) {
+                    console.error('Error parsing items:', e);
+                }
+            }
+
+            // Notes
+            if (params.notes) document.getElementById('notes').innerHTML = params.notes.replace(/\\n/g, '<br>');
+        }
+
+        document.addEventListener('DOMContentLoaded', populateInvoice);
+    </script>
+</body>
+</html>
