@@ -1,144 +1,135 @@
-// ==================== URL PARAMETER PARSING ====================
-function getUrlParams() {
-    const params = new URLSearchParams(window.location.search);
-    const data = {};
-    for (const [key, value] of params.entries()) {
-        data[key] = decodeURIComponent(value);
-    }
-    return data;
-}
+// Add after populateInvoice() function in script.js
 
-// ==================== UTILITY FUNCTIONS ====================
-function formatCurrency(value) {
-    return '$' + parseFloat(value || 0).toFixed(2);
-}
-
-function changeTemplate(template) {
-    document.body.className = 'template-' + template;
-    
-    // Update URL without reload
-    const params = getUrlParams();
-    params.template = template;
-    const newUrl = window.location.pathname + '?' + new URLSearchParams(params).toString();
-    window.history.replaceState({}, '', newUrl);
-}
-
-// ==================== POPULATE INVOICE DATA ====================
-function populateInvoice() {
-    const params = getUrlParams();
-
-    // Set template
-    const template = params.template || 'professional';
-    document.getElementById('templateSelect').value = template;
-    document.body.className = 'template-' + template;
-
-    // Document type
-    if (params.documentType) {
-        document.getElementById('documentType').textContent = params.documentType.toUpperCase();
-    }
-
-    // Company info
-    if (params.companyName) {
-        document.getElementById('companyName').textContent = params.companyName;
-    }
-    if (params.companyAddress) {
-        document.getElementById('companyAddress').innerHTML = params.companyAddress.replace(/\\n/g, '<br>');
-    }
-
-    // Invoice meta
-    if (params.invoiceNumber) {
-        document.getElementById('invoiceNumber').textContent = params.invoiceNumber;
-    }
-    if (params.invoiceDate) {
-        document.getElementById('invoiceDate').textContent = params.invoiceDate;
-    }
-    if (params.dueDate) {
-        document.getElementById('dueDate').textContent = params.dueDate;
-    }
-
-    // Customer info
-    if (params.customerName) {
-        document.getElementById('customerName').textContent = params.customerName;
-    }
-    if (params.customerAddress) {
-        document.getElementById('customerAddress').textContent = params.customerAddress;
-    }
-    if (params.customerEmail) {
-        document.getElementById('customerEmail').textContent = params.customerEmail;
-    }
-
-    // Line items
-    if (params.items) {
-        try {
-            const items = JSON.parse(params.items);
-            const tbody = document.getElementById('itemsBody');
-            tbody.innerHTML = '';
-
-            let subtotal = 0;
-
-            items.forEach(item => {
-                const amount = (parseFloat(item.quantity) || 0) * (parseFloat(item.price) || 0);
-                subtotal += amount;
-
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${item.description || ''}</td>
-                    <td class="text-center">${item.quantity || 0}</td>
-                    <td class="text-right">${formatCurrency(item.price)}</td>
-                    <td class="text-right">${formatCurrency(amount)}</td>
-                `;
-                tbody.appendChild(row);
-            });
-
-            // Calculate totals
-            const taxRate = parseFloat(params.taxRate || 0);
-            const tax = subtotal * (taxRate / 100);
-            const total = subtotal + tax;
-
-            document.getElementById('subtotal').textContent = formatCurrency(subtotal);
-            document.getElementById('taxRate').textContent = taxRate.toFixed(2);
-            document.getElementById('tax').textContent = formatCurrency(tax);
-            document.getElementById('total').textContent = formatCurrency(total);
-
-        } catch (e) {
-            console.error('Error parsing items:', e);
-            document.getElementById('itemsBody').innerHTML = '<tr><td colspan="4" style="text-align:center;color:#999;">Error loading items</td></tr>';
+function populateKhmerTemplate(params) {
+    // Add document title
+    const header = document.querySelector('.header');
+    if (document.body.classList.contains('template-khmer')) {
+        // Add Khmer company info
+        const companyInfo = document.querySelector('.company-info');
+        companyInfo.innerHTML = `
+            <div style="font-size: 14px;">អង្គបូឌៀ ឡូជីស្ទីក ឯ.ក</div>
+            <div style="font-size: 14px;">吴哥物流有限公司</div>
+            <h1>${params.companyName || 'Angkobodia Logistics Co., Ltd'}</h1>
+            <p style="font-size: 13px; font-weight: normal;">គោលនយោបាយអាករ (VATTIN): K008-100314888</p>
+            <p>${params.companyAddress || 'No. W41, Room G3, Ground Floor, City Tower Building<br>Mao Tse Tong Blvd, Phnom Penh<br>Tel: 023 434 304/31'}</p>
+        `;
+        
+        // Add document title after header
+        if (!document.querySelector('.document-title')) {
+            const titleDiv = document.createElement('div');
+            titleDiv.className = 'document-title';
+            titleDiv.innerHTML = '<h2>វិក្កយបត្រពន្ធ<br>TAX INVOICE</h2>';
+            header.after(titleDiv);
+        }
+        
+        // Add invoice info on right
+        const billTo = document.querySelector('.bill-to');
+        if (!document.querySelector('.invoice-info-right')) {
+            const invoiceInfoRight = document.createElement('div');
+            invoiceInfoRight.className = 'invoice-info-right';
+            invoiceInfoRight.innerHTML = `
+                <p><strong>Invoice No:</strong> <span id="khmerInvoiceNumber">${params.invoiceNumber || 'INV-001'}</span></p>
+                <p><strong>Date:</strong> <span id="khmerInvoiceDate">${params.invoiceDate || ''}</span></p>
+            `;
+            billTo.after(invoiceInfoRight);
+        }
+        
+        // Update table headers to Khmer
+        const thead = document.querySelector('.items-table thead tr');
+        thead.innerHTML = `
+            <th style="width: 50px;">ល.រ<br>No</th>
+            <th>បរិយាយមុខទំនិញ<br>Description</th>
+            <th style="width: 80px;">បរិមាណ<br>Quantity</th>
+            <th style="width: 100px;">តម្លៃឯកតា<br>Unit Price</th>
+            <th style="width: 120px;">តម្លៃសរុប<br>Amount (USD)</th>
+        `;
+        
+        // Add exchange rate
+        const totals = document.querySelector('.totals');
+        if (!document.querySelector('.exchange-rate')) {
+            const exchangeDiv = document.createElement('div');
+            exchangeDiv.className = 'exchange-rate';
+            exchangeDiv.innerHTML = 'អត្រាប្តូរប្រាក់ / Exchange Rate: 4,020';
+            totals.before(exchangeDiv);
+        }
+        
+        // Update totals labels
+        document.querySelector('.totals').innerHTML = `
+            <div class="totals-row">
+                <span>សរុប / Subtotal:</span>
+                <span id="subtotal">$0.00</span>
+            </div>
+            <div class="totals-row">
+                <span>អាករលើតម្លៃបន្ថែម (VAT <span id="taxRate">0</span>%):</span>
+                <span id="tax">$0.00</span>
+            </div>
+            <div class="totals-row total">
+                <span>សរុបរួមជាដុល្លារ / Grand Total USD:</span>
+                <span id="total">$0.00</span>
+            </div>
+            <div class="totals-row">
+                <span>សរុបរួមជារៀល / Grand Total KHR:</span>
+                <span id="totalKHR">0៛</span>
+            </div>
+        `;
+        
+        // Add signatures
+        const footer = document.querySelector('.footer');
+        footer.innerHTML = `
+            <div class="signature">
+                <p style="margin-top: 5px;">Customer's Signature & Name<br>ហត្ថលេខា និងឈ្មោះអតិថិជន</p>
+            </div>
+            <div class="signature">
+                <p style="margin-top: 5px;">Seller's Signature & Name<br>ហត្ថលេខា និងឈ្មោះអ្នកលក់</p>
+            </div>
+        `;
+        
+        // Add note
+        if (!document.querySelector('.note-section')) {
+            const noteDiv = document.createElement('div');
+            noteDiv.className = 'note-section';
+            noteDiv.innerHTML = 'Note: Original Invoice for Customer, Copied Invoice for Seller.';
+            footer.after(noteDiv);
         }
     }
-
-    // Notes
-    if (params.notes) {
-        document.getElementById('notes').innerHTML = params.notes.replace(/\\n/g, '<br>');
-    }
 }
 
-// ==================== INITIALIZE ====================
-document.addEventListener('DOMContentLoaded', populateInvoice);
+// Update the populateInvoice function to call this
+// Add this at the end of populateInvoice() function, before the closing brace:
+
+    // Handle Khmer template special formatting
+    if (template === 'khmer') {
+        populateKhmerTemplate(params);
+        
+        // Update KHR total if available
+        const totalUSD = parseFloat(document.getElementById('total').textContent.replace('$', ''));
+        const totalKHR = Math.round(totalUSD * 4020);
+        const totalKHRElement = document.getElementById('totalKHR');
+        if (totalKHRElement) {
+            totalKHRElement.textContent = totalKHR.toLocaleString() + '៛';
+        }
+    }
 ```
 
----
+## **Summary of Changes:**
 
-## **How to Upload to GitHub:**
+1. ✅ Added "Khmer Tax Invoice" option to template dropdown
+2. ✅ Created Khmer template styles in `templates.css`
+3. ✅ Added JavaScript to handle special Khmer formatting
+4. ✅ Bilingual headers (Khmer/English)
+5. ✅ Dual currency display (USD and KHR)
+6. ✅ Signature sections for both parties
+7. ✅ Exchange rate display
 
-1. Go to your repository: `https://github.com/kounsokong/invoice-templates`
-2. Upload all 4 files to the root directory
-3. Wait 1-2 minutes for GitHub Pages to update
-4. Your invoice system will be live at: `https://kounsokong.github.io/invoice-templates/`
-
----
-
-## **Your AppSheet Action Formula:**
+## **Usage in AppSheet:**
 ```
 CONCATENATE(
   "https://kounsokong.github.io/invoice-templates/?",
-  "template=modern",
+  "template=khmer",
   "&invoiceNumber=", [Invoice#],
-  "&invoiceDate=", TEXT([Invoice_Date],"DD/MM/YYYY"),
-  "&dueDate=", TEXT([Due Date],"DD/MM/YYYY"),
+  "&invoiceDate=", TEXT([Invoice_Date],"MM/DD/YYYY"),
   "&customerName=", ENCODEURL([Client_Name]),
   "&customerAddress=", ENCODEURL([Client_Address]),
-  "&customerEmail=", [Client_Email],
   "&items=", ENCODEURL([Items_JSON]),
-  "&taxRate=10",
-  "&notes=Thank%20you%20for%20your%20business"
+  "&taxRate=10"
 )
