@@ -1,0 +1,204 @@
+/* ==================== TEMPLATE 1: PROFESSIONAL ==================== */
+.template-professional .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 40px;
+    border-bottom: 3px solid #333;
+    padding-bottom: 20px;
+}
+
+.template-professional .company-info h1 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.template-professional .invoice-meta {
+    text-align: right;
+}
+
+.template-professional .invoice-meta h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.template-professional .items-table thead {
+    background-color: #333;
+}
+
+/* ==================== TEMPLATE 2: MODERN BLUE ==================== */
+.template-modern .header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    margin: -40px -40px 30px -40px;
+    border-radius: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+}
+
+.template-modern .company-info h1,
+.template-modern .invoice-meta h2,
+.template-modern .invoice-meta p,
+.template-modern .company-info p {
+    color: white;
+}
+
+.template-modern .company-info h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.template-modern .invoice-meta {
+    text-align: right;
+}
+
+.template-modern .invoice-meta h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.template-modern .items-table thead {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* ==================== TEMPLATE 3: MINIMALIST RECEIPT ==================== */
+.template-receipt {
+    font-family: 'Courier New', monospace;
+}
+
+.template-receipt .container {
+    max-width: 400px;
+    padding: 20px;
+}
+
+.template-receipt .header {
+    text-align: center;
+    border-bottom: 2px dashed #333;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.template-receipt .company-info h1 {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.template-receipt .company-info p {
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.template-receipt .invoice-meta {
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.template-receipt .invoice-meta h2 {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.template-receipt .bill-to {
+    border-top: 1px dashed #333;
+    border-bottom: 1px dashed #333;
+    padding: 10px 0;
+    margin-bottom: 15px;
+    font-size: 12px;
+}
+
+.template-receipt .items-table {
+    font-size: 12px;
+}
+
+.template-receipt .items-table th,
+.template-receipt .items-table td {
+    padding: 5px 2px;
+}
+
+.template-receipt .items-table thead {
+    background-color: #333;
+}
+
+.template-receipt .totals {
+    width: 100%;
+    border-top: 2px dashed #333;
+    padding-top: 10px;
+    font-size: 12px;
+}
+
+/* ==================== TEMPLATE 4: CORPORATE GREEN ==================== */
+.template-corporate .header {
+    border-left: 5px solid #10b981;
+    padding-left: 20px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+}
+
+.template-corporate .company-info h1 {
+    color: #10b981;
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.template-corporate .invoice-meta {
+    text-align: right;
+}
+
+.template-corporate .invoice-meta h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.template-corporate .items-table thead {
+    background-color: #10b981;
+}
+
+.template-corporate .totals-row.total {
+    background-color: #f0fdf4;
+    padding: 12px;
+    border: 2px solid #10b981;
+    color: #10b981;
+}
+
+/* ==================== TEMPLATE 5: ELEGANT ==================== */
+.template-elegant .header {
+    text-align: center;
+    border: 2px solid #6b7280;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.template-elegant .company-info h1 {
+    font-family: Georgia, serif;
+    font-size: 36px;
+    color: #1f2937;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
+
+.template-elegant .invoice-meta {
+    margin-top: 15px;
+}
+
+.template-elegant .invoice-meta h2 {
+    font-family: Georgia, serif;
+    font-size: 24px;
+    color: #1f2937;
+    margin-bottom: 10px;
+}
+
+.template-elegant .items-table {
+    border: 2px solid #6b7280;
+}
+
+.template-elegant .items-table thead {
+    background-color: #1f2937;
+}
