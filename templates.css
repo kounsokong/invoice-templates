@@ -202,3 +202,194 @@
 .template-elegant .items-table thead {
     background-color: #1f2937;
 }
+
+/* ==================== TEMPLATE 6: KHMER TAX INVOICE ==================== */
+.template-khmer {
+    font-family: "Khmer OS Battambang", Arial, sans-serif;
+}
+
+.template-khmer .container {
+    max-width: 190mm;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.template-khmer .header {
+    text-align: center;
+    border-bottom: 2px solid #000;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.template-khmer .company-info {
+    line-height: 1.4;
+}
+
+.template-khmer .company-info h1 {
+    font-size: 18px;
+    margin: 5px 0;
+    font-weight: bold;
+}
+
+.template-khmer .company-info p {
+    margin: 3px 0;
+    font-size: 13px;
+}
+
+.template-khmer .invoice-meta {
+    display: none; /* Hide default meta section */
+}
+
+.template-khmer .bill-to {
+    width: 48%;
+    float: left;
+    margin-bottom: 10px;
+    border: none;
+}
+
+.template-khmer .bill-to h3 {
+    font-weight: bold;
+    text-transform: none;
+    font-size: 14px;
+}
+
+.template-khmer .bill-to p {
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+/* Invoice details on the right */
+.template-khmer .header::after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+/* Items table with Khmer headers */
+.template-khmer .items-table {
+    clear: both;
+    font-size: 13px;
+    margin-top: 20px;
+}
+
+.template-khmer .items-table th,
+.template-khmer .items-table td {
+    border: 1px solid #000;
+    padding: 6px 8px;
+    text-align: left;
+}
+
+.template-khmer .items-table thead {
+    background-color: transparent;
+    color: #000;
+    font-weight: bold;
+}
+
+.template-khmer .items-table th {
+    line-height: 1.3;
+}
+
+/* Totals styling */
+.template-khmer .totals {
+    width: 45%;
+    float: right;
+    margin-top: 10px;
+    border: none;
+}
+
+.template-khmer .totals .totals-row {
+    border: none;
+    padding: 4px 0;
+}
+
+.template-khmer .totals .totals-row.total {
+    border-top: 2px solid #000;
+    padding-top: 8px;
+}
+
+/* Footer signatures */
+.template-khmer .footer {
+    clear: both;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 60px;
+    padding-top: 20px;
+}
+
+.template-khmer .footer::before {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+.template-khmer .signature {
+    width: 45%;
+    text-align: center;
+}
+
+.template-khmer .signature::before {
+    content: '';
+    display: block;
+    border-top: 1px solid #000;
+    width: 80%;
+    margin: 60px auto 10px;
+}
+
+/* Exchange rate note */
+.template-khmer .exchange-rate {
+    margin-top: 10px;
+    font-size: 13px;
+    clear: both;
+}
+
+/* Note section */
+.template-khmer .note-section {
+    font-size: 12px;
+    text-align: center;
+    margin-top: 30px;
+    clear: both;
+}
+
+/* Document title */
+.template-khmer .document-title {
+    text-align: center;
+    margin: 10px 0 20px 0;
+}
+
+.template-khmer .document-title h2 {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Additional info section (shipment details) */
+.template-khmer .additional-info {
+    width: 100%;
+    margin-bottom: 15px;
+    clear: both;
+    font-size: 13px;
+}
+
+.template-khmer .additional-info table {
+    border: none;
+}
+
+.template-khmer .additional-info td {
+    border: none;
+    padding: 4px 8px;
+}
+
+/* Invoice meta info positioned on right */
+.template-khmer .invoice-info-right {
+    float: right;
+    width: 48%;
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+.template-khmer .invoice-info-right p {
+    margin: 3px 0;
+    font-size: 13px;
+}
